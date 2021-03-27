@@ -1,0 +1,29 @@
+<div [hidden]="products || errMess">
+    <mat-spinner></mat-spinner><h4>Loading . . . Please Wait</h4>
+  </div>
+<div fxFlex *ngIf="errMess">
+    <h2>Error</h2>
+    <h4>{{errMess}}</h4>
+  </div>
+<div class="container"
+     fxLayout="column"
+     fxLayoutGap="10px">
+
+  <div fxFlex>
+    <div>
+      <h3>Books</h3>
+      <hr>
+    </div>
+  </div>
+    <div>
+    <mat-grid-list cols="2" rowHeight="200px">
+      <mat-grid-tile *ngFor="let product of products" [routerLink]="['/book', product.id]" appHighlight>
+        <img height="200px" src="{{product.img}}" alt={{product.name}}>
+        <mat-grid-tile-footer>
+          <h1>{{product.name | uppercase}}</h1>
+        </mat-grid-tile-footer>
+      </mat-grid-tile>
+    </mat-grid-list>
+    <div>
+    
+</div>

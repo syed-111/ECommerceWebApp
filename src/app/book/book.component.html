@@ -1,0 +1,76 @@
+<div [hidden]="product || errMess">
+    <mat-spinner></mat-spinner><h4>Loading . . . Please Wait</h4>
+  </div>
+  <div fxFlex *ngIf="errMess">
+    <h2>Error</h2>
+    <h4>{{errMess}}</h4>
+  </div>
+<div class="container">
+  <div fxFlex="40">
+    <mat-card  *ngIf="product" class="example-card" [@visibility]="visibility" [@expand]>
+  <mat-card-header>
+    <div mat-card-avatar class="example-header-image"></div>
+    <mat-card-title><h3>{{product.name | uppercase}}</h3></mat-card-title>
+  </mat-card-header>
+  <img mat-card-image src="{{product.img}}" alt={{product.name}}>
+  <mat-card-content>
+    <p>
+      {{product.description}}
+    </p>
+    <p> <b>PRICE:</b></p>
+    <p> {{product.price}} $</p>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-button [routerLink]="['/book', prev]"><span class="fa fa-chevron-left fa-lg"></span></button>
+    <button mat-button (click)="addToCart(product)">ADD TO CART</button>
+    <span class="flex-spacer"></span>
+        <button mat-button [routerLink]="['/book', next]"><span class="fa fa-chevron-right fa-lg"></span></button>
+        <p *ngIf="pushSuccess" >
+         <b> ADDED TO CART</b>
+    </p>
+    <p *ngIf="err">
+    <b>PRODUCT ALREADY IN CART</b>
+    </p>
+        <br>
+    <button mat-button (click)="goBack()">BACK</button>
+    
+  </mat-card-actions>
+</mat-card>
+  </div>
+  <div fxFlex="40">
+  <mat-list fxFlex *ngIf="product" [@visibility]="visibility" [@expand]>
+    <h3>Comments</h3>
+    <mat-list-item *ngFor="let cmt of product.comments">
+      <p matLine> {{cmt.comment}} </p>
+      <p matLine> {{cmt.rating}} stars </p>
+      <p matLine>-- {{cmt.author}} {{cmt.date | date}}</p>
+      <br>
+      <br>
+    </mat-list-item>
+  </mat-list>
+  <div fxFlex fxFlexOffset="20px" class="form-size">
+    <h3>Give your comment</h3>
+    <form novalidate [formGroup]="commentForm" #fform="ngForm" (ngSubmit)="onSubmit()">
+      <p>
+        <mat-form-field class="half-width">
+          <input matInput formControlName="author" placeholder="Name" type="text" required>
+          <mat-error *ngIf="formErrors.author">{{formErrors.author}}</mat-error>
+          </mat-form-field>
+        <mat-slider
+            formControlName="rating"
+              thumbLabel="5"
+              [displayWith]="formatLabel"
+              tickInterval="1"
+              min="1"
+              max="5"
+              value="5"></mat-slider>
+        <mat-form-field class="full-width">
+          <textarea matInput formControlName="comment" placeholder="Your Comment" rows=12 required></textarea>
+        </mat-form-field>
+      </p>
+      <button type="submit" mat-button class="background-primary text-floral-white" [disabled]="commentForm.invalid">Submit</button>
+    </form>
+  </div>
+  </div>
+</div>
+

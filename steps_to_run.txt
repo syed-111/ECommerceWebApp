@@ -1,0 +1,9 @@
+
+json-server --watch data.json
+
+In other terminal
+ng serve
+
+Open browser and type
+
+localhost:4200
